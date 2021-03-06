@@ -3,8 +3,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from pydantic import BaseModel
 
 from config.settings import ALLOWED_HOSTS
+from utils.vowels import reverse_vowels
+
+
+class VowelPayload(BaseModel):
+    message: str
 
 
 app = FastAPI()
@@ -20,9 +26,11 @@ async def hello():
     return "world"
 
 
-@app.post("/vowel-service", status_code=status.HTTP_201_CREATED)
-async def vowel_service():
-    pass
+@app.post("/vowel-service")
+async def vowel_service(payload: VowelPayload):
+    message = payload.message
+    message_reversed_vowels = reverse_vowels(message)
+    return message_reversed_vowels
 
 
 if __name__ == "__main__":
