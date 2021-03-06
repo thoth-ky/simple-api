@@ -3,11 +3,21 @@
 - name: create a cluster
   google.cloud.gcp_container_cluster:
     name: prod-cluster
-    initial_node_count: 2
-    node_config:
-      machine_type: e2-medium
+    initial_node_count: 3
     location: us-central1-f
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file}}" # set in ENV GCP_SERVICE_ACCOUNT_FILE
     project: "{{ project_name }}"
+    state: present
+  register: cluster
+
+- name: create a node pool
+  google.cloud.gcp_container_node_pool:
+    name: web-pool
+    initial_node_count: 3
+    cluster: "{{ cluster }}"
+    location: us-central1-f
+    project: "{{ project_name }}"
+    auth_kind: serviceaccount
+    service_account_file: "{{ service_account_file}}"
     state: present
