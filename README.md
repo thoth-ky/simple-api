@@ -41,6 +41,11 @@ Provision a cluster, specified as `prod-cluster`
 3. Navigate to `http://127.0.0.1:8000/docs` to read the API docs
 4. A simple TODO list can be found in `http://127.0.0.1:8000/fe`
 
+## To Trigger a deploy by cloudbuild run
+
+    ```
+    $ gcloud builds submit --substitutions=SHORT_SHA=<GIT_COMMIT_SHORT_SHA>,_CLOUDSDK_CONTAINER_CLUSTER=<GCP_>,_CLOUDSDK_COMPUTE_ZONE="CLUSTER_LOCATION"
+    ```
 
 
 # Authors

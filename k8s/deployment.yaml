@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: web-app
-          image: gcr.io/cloudkite-interviews-306021/thoth-ky/simple-api
+          image: gcr.io/<PROJECT_ID>/simple-api
           ports:
             - containerPort: 8000
           command: ["uvicorn", "main:app","--host", "0.0.0.0", "--log-level", "info"]
