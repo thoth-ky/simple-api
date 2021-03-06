@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -7,6 +7,13 @@ from pydantic import BaseModel
 
 from config.settings import ALLOWED_HOSTS
 from utils.vowels import reverse_vowels
+from database import models
+from database.database import engine
+
+from routes import todo
+
+# create tables
+models.Base.metadata.create_all(bind=engine)
 
 
 class VowelPayload(BaseModel):
@@ -14,6 +21,9 @@ class VowelPayload(BaseModel):
 
 
 app = FastAPI()
+
+app.include_router(todo.router, prefix='/todo')
+
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
