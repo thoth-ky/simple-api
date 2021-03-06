@@ -29,3 +29,4 @@ README.md
 *.pem
 *.crt
 *.key
+credentials.json

@@ -1,0 +1,8 @@
+# Provison GKE Cluster
+
+- hosts: localhost
+  # vars_files:
+    # - secret.yml
+  roles: 
+    - role: cluster-setup
+  

@@ -1,2 +1,4 @@
 ---
 # vars file for cluster-setup
+project_name: "none"
+service_account_file: "../credentials.json"

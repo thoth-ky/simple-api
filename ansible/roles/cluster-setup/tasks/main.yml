@@ -1,2 +1,13 @@
 ---
 # tasks file for cluster-setup
+- name: create a cluster
+  google.cloud.gcp_container_cluster:
+    name: web-cluster
+    initial_node_count: 2
+    node_config:
+      machine_type: n1-standard-4
+    location: us-central1-f
+    auth_kind: serviceaccount
+    service_account_file: "{{ service_account_file}}" # set in ENV GCP_SERVICE_ACCOUNT_FILE
+    project: "{{ project_name }}"
+    state: present
