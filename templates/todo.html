@@ -5,26 +5,38 @@
         
     </head>
     <body>
-        <div>
-            <div>
+        <div class="container">
+            <h1 class="center-txt">ToDO App</h1>
+        </div>
+
+        <div class="container">
+            <div class="right">
                 <h1>New Todo Item</h1>
                 <form action="/todo/" method="post" >
                     <label for="name">New TODO:</label><br>
                     <input type="text" id="name" name="name"><br><br>
-                    <input type="button" value="Submit" onClick="submitform()">
+                    <input type="button" value="Submit" onClick="submitform()" class="button">
                 </form>
             </div>
-            <div>
+            <div class="left">
                 <h1>ToDo List</h1>
                 <ul>
-                    <span>Todo ID</span>
-                    <span>Todo Name</span>
-                    <span>Todo Done</span>
+                    <div class="row">
+                        <div class="column"><b>Todo ID</b></div>
+                        <div class="column"><b>Todo Name</b></div>
+                        <div class="column"><b>Todo Done</b></div>
+                        <div class="column"><b>Complete</b></div>
+                    </div>
                 {% for todo in todos %}
-                    <li>
-                        <span>{{ todo.id }}</span>
-                        <span>{{ todo.name }}</span>
-                        <span>{{ todo.done }}</span>
+                    <li class="{{ 'done' if todo.done }} row">
+                        <div class="column">{{ todo.id }}</div>
+                        <div class="column">{{ todo.name }}</div>
+                        <div class="column">{{ todo.done }}</div>
+                        <div class="column">
+                            {% if not  todo.done %}
+                                <button class="button" onClick="completeToDO(this.value)" value={{todo.id}}>Complete</button>
+                            {% endif %}
+                        </div>
                     </li>
                 {% endfor %}
                 </ul>
@@ -34,20 +46,31 @@
     <script type="text/javascript">
         function submitform() {
             let form = document.forms[0];
-            Promise.resolve()
-            .then(function() {
-                var xhr = new XMLHttpRequest();
-                xhr.open(form.method, form.action, true);
-                xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-                const formData = {
-                    "name": form.querySelector('input[name="name"]').value
-                };
-                console.log({formData})
-                const res = xhr.send(JSON.stringify(formData));
+            const formData = {
+                "name": form.querySelector('input[name="name"]').value
+            };
+            fetch(`/todo/${id}/done`, {
+                method: 'POST',
+                body: JSON.stringify(formData)
             })
+            .then(() => {
+                window.location.reload()
+            })
+
             .then(function(){
                 console.log("Reload");
                 window.location.reload();
+            })
+            
+        }
+
+        function completeToDO(id) {
+            console.log({id})
+            fetch(`/todo/${id}/done`, {
+                method: 'PUT'
+            })
+            .then(()=>{
+                window.location.reload()
             })
             
         }

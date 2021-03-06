@@ -30,3 +30,4 @@ README.md
 *.crt
 *.key
 credentials.json
+sql_app.db
