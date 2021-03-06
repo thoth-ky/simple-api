@@ -1,5 +1,19 @@
 # gcr.io/cloudkite-interviews-306021/thoth-ky/simple-api:c17c630d5cba5a2b9f28886e01bb75b5ae6b58f70bbbaa54c75cf99d8d32427e
 steps:
+  # Build Image
   - name: 'gcr.io/cloud-builders/docker'
     args:  [ 'build', '-t', 'gcr.io/cloudkite-interviews-306021/thoth-ky/simple-api:${SHORT_SHA}', '.' ]
-images: ['gcr.io/cloudkite-interviews-306021/thoth-ky/simple-api:${SHORT_SHA}']
+
+  # Push to Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/cloudkite-interviews-306021/thoth-ky/simple-api:${SHORT_SHA}']
+
+  # Deploy to GKE
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --filename=k8s
+      - --image=gcr.io/cloudkite-interviews-306021/thoth-ky/simple-api:${SHORT_SHA}
+      - --location=${_CLOUDSDK_COMPUTE_ZONE}
+      - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+# images: []
