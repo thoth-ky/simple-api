@@ -30,7 +30,7 @@ async def get_todos_list(skip: int = 0, limit: int = 100, db: Session = Depends(
 async def create_todo_record(todo: TodoCreate, db: Session = Depends(get_db)):
     return create_todos(db, todo)
 
-@router.put("/{todo_id}/done", response_model=Todo)
+@router.put("/{todo_id}/done/", response_model=Todo)
 async def mark_todo_done(todo_id: int,  db: Session = Depends(get_db)):
     return update_todo_done(db, todo_id)
 
