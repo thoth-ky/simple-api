@@ -1,0 +1,11 @@
+- hosts: localhost
+
+  tasks:
+    - name: Migrate Nodepool to new one
+      script: ../migrate-pool.sh
+      environment:
+        NEW_POOL_NAME: "{{ new_pool_name }}"
+        CLUSTER_NAME: "{{cluster_name }}"
+        MACHINE_TYPE: "{{ machine_type}}"
+        NUM_NODES: " {{ num_nodes }}"
+        OLD_POOL_NAME: "{{ old_pool_name }}"
